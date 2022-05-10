@@ -1,0 +1,64 @@
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
+// datasource db {
+//   provider = "mysql"
+//   url      = env("DATABASE_URL")
+// }
+
+// model projects {
+//   id           Int            @id @default(autoincrement())
+//   title        String         @db.VarChar(255)
+//   status       String         @db.VarChar(255)
+//   createdAt    DateTime       @default(now()) @db.DateTime(0)
+//   updatedAt    DateTime       @updatedAt @db.DateTime(0)
+//   projectusers projectusers[]
+// }
+
+// model projectusers {
+//   createdAt DateTime @default(now()) @db.DateTime(0)
+//   updatedAt DateTime @updatedAt @db.DateTime(0)
+//   UserId    Int
+//   ProjectId Int
+//   projects  projects @relation(fields: [ProjectId], references: [id], onDelete: Cascade, map: "projectusers_ibfk_2")
+//   users     users    @relation(fields: [UserId], references: [id], onDelete: Cascade, map: "projectusers_ibfk_1")
+
+//   @@id([UserId, ProjectId])
+//   @@index([ProjectId], map: "ProjectId")
+// }
+
+// model users {
+//   id           Int            @id @default(autoincrement())
+//   name         String         @db.VarChar(255)
+//   email        String         @unique(map: "email") @db.VarChar(255)
+//   password     String         @db.VarChar(255)
+//   createdAt    DateTime       @default(now()) @db.DateTime(0)
+//   updatedAt    DateTime       @updatedAt @db.DateTime(0)
+//   projectusers projectusers[]
+//   // projects     projects[]     @relation(fields: [id], references: [id])
+// }
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  email String
+  password String
+  project Project[]
+}
+model Project{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  description String
+  status String
+  user User? @relation(fields: [userId],references: [id])
+  userId String? @db.ObjectId
+}
