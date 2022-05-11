@@ -4,9 +4,14 @@ import { associateUserProjects, User } from "../../models/user";
 const prisma = new PrismaClient();
 // const User = require('../../firebase-config/config')
 
-// import { associateProjectUser } from "../../models/project";
-associateUserProjects();
-// associateProjectUser();
+/* This controller is performing CRUD with Prisma
+in both mySql and mongdoDB 
+You need to build proper connection and just to comment and uncomment 
+the following codes
+(***) For mysql crud operation with prisma:- 
+you need to go prisma/schema.prisma file and uncomment the mysql connection part
+and comment the mongo connection part and run command "prisma generate" and vice versa
+for CRUD operation on mongoDB */
 class prismaController {
   async create(req: Request, res: Response) {
     try {

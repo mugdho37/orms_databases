@@ -50,9 +50,10 @@ app.post("/food", async (request, response) => {
 
 app.patch("/food/:id", async (request, response) => {
     try {
-     const food =  await foodModel.findOneAndUpdate(request.params.id, request.body);
-      await foodModel.save();
-      console.log("Food items:- ")
+     const food =  await foodModel.findOneAndUpdate(request.params.id, request.body, {
+      new: true
+    });
+
       response.send(food);
     } catch (error) {
       response.status(500).send(error);
