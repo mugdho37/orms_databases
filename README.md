@@ -22,7 +22,22 @@ npm install
 ``` 
 2.Get your database congiguration done
 Link: https://github.com/mugdho37/db_connections/blob/main/README.md
-3. 
+3. I have kept database same for both projects
+
+## express_orm_typescript
+1. Run migration
+    ```
+    npx sequelize-cli db:migrate
+    npx prisma migrate dev
+    ```    
+2. For mysql crud operation with prisma, you need to go prisma/schema.prisma file and **uncomment the mysql connection part** and **comment the mongo connection part** and run command each time you comment, uncomment the schema file 
+    ```
+    prisma generate
+    ```
+    and vice versa for CRUD operation on mongoDB
+
+## mongo
+
  
 
 
