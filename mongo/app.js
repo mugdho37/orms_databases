@@ -16,8 +16,8 @@ mongoose.connect('mongodb://localhost:27017/myFirstDatabase')
         console.log('successfully connected to database');
     }).catch(err => console.log(err));
 
-app.use(foodRouter);
-// app.use(foodRouterPrisma)
+// app.use(foodRouter);
+app.use(foodRouterPrisma)
 
 app.listen(3000, () => {
   console.log("Server is running...");

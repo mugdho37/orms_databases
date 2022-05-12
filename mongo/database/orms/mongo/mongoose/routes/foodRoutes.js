@@ -29,10 +29,10 @@ app.post("/food", async (request, response) => {
     
     try {
       // console.log(request);
-      const food = new foodModel({...request.body, category: "627b4e00b21c257d9cded52a"});
+      const food = new foodModel(request.body);
       await food.save();
       await Category.updateOne({
-        _id: "627b4e00b21c257d9cded52a"
+        _id: request.body.category
       },{
         $push:{
           foods: food._id

@@ -8,11 +8,7 @@ const prisma = new PrismaClient()
 
 app.get("/foods", async (request, response) => {
   try {
-    const foods = await prisma.foods.findMany({
-      include: {
-        categories: true,
-      },
-    })
+    const foods = await prisma.foods.findMany({});
     response.send(foods);
 
   } catch (error) {
@@ -22,7 +18,7 @@ app.get("/foods", async (request, response) => {
 
 app.get("/category", async (request, response) => {
     try {
-      const food = await prisma.foods.findMany({include:{ categories: true }})
+      const food = await prisma.categories.findMany({include:{ foods: true }})
       console.log(food)
       return response.status(200).send(food);
     } catch (error) {
@@ -39,28 +35,22 @@ app.post("/food", async (request, response) => {
         data: {
           name: _name,
           calories: _calory,
-          // categories:{
-          //   create:{
-          //     Type:  "Solid",
-          //     description: "This is a solid food",
-          //   }
-          // }
+          categoryId: request.body.categoryId
           }
        })
-       return res.status(200).send({Details: user, message:"User created Successfully"});
+       return response.status(200).send({Details: food, message:"Food created Successfully"});
       }
      catch (error) {
+       console.log(error)
       response.status(500).send(error);
     }
   });
   app.post("/category", async (request, response) => {
     try {
-      console.log(request.body);
       const category = await prisma.categories.create({
         data: {
           type:  request.body.type,
-          description: request.body.description,
-          foodId: request.body.foodId
+          description: request.body.description,    
           }
        })
        return response.status(200).send({Details: category, message:"Category created Successfully"});
@@ -70,21 +60,47 @@ app.post("/food", async (request, response) => {
     }
   });
 
-// app.patch("/food/:id", async (request, response) => {
-//     try {
-    
-//     } catch (error) {
-//       response.status(500).send(error);
-//     }
-//   });
+app.patch("/food/:id", async (request, response) => {
+  try {
+    const food_id = request.params.id;
+    // console.log(food_id);
+    // mongoDB
+    const user_info = await prisma.foods.update({
+      where: {
+        id: food_id,
+      },
+      data: {
+        name: request.body.name,
+        calories: request.body.calories,
+      },
+    })
+    if (user_info) {
+      return response.status(200).send({message: "User updated successfully", updatedUser: {user_info}});
+    } else {
+      return response.status(200).send("User not found");
+    }
+  } catch(error) {
+    console.log(error)
+    return response.status(500).send(error);
+  }
+  });
 
-//   app.delete("/food/:id", async (request, response) => {
-//     try {
+  app.delete("/food/:id", async (request, response) => {
+    try {
+      const deleteFood = await prisma.foods
+        .delete({
+          where: {
+            id: request.params.id,
+          },
+        })
+        .then((info) => {
+          return response.status(200).send({ message: "User deleted Successfully" });
+        });
       
-//     } catch (error) {
-//       response.status(500).send(error);
-//     }
-//   });
+    } catch (error) {
+      response.status(500).send(error);
+    }
+  });
     
 
 module.exports = app;

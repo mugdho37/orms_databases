@@ -25,7 +25,8 @@ model foods {
   // v          Int          @map("__v")
   calories   Int
   name       String
-  categories categories[]
+  category categories? @relation(fields: [categoryId], references: [id])
+  categoryId String? @db.ObjectId
 }
 
 model categories {
@@ -33,6 +34,5 @@ model categories {
   // v      Int    @map("__v")
   type   String
   description String
-  food   foods?  @relation(fields: [foodId], references: [id])
-  foodId String? @db.ObjectId
+  foods foods[]
 }
