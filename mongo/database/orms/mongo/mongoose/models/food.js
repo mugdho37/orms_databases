@@ -14,11 +14,10 @@ const FoodSchema = new mongoose.Schema({
       if (value < 0) throw new Error("Negative calories aren't real.");
     },
   },
-  category:[{
+  category:{
     type:mongoose.Schema.Types.ObjectId,
-    required:true,
     ref:'Category'
-}],
+},
 });
 
 const Food = mongoose.model("Food", FoodSchema);

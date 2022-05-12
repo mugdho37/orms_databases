@@ -17,7 +17,7 @@ app.get("/foods", async (request, response) => {
 app.get("/category", async (request, response) => {
     try {
       // const foods = await foodModel.find({});
-      const category= await Category.find({});
+      const category= await Category.find({}).populate("foods");
       // await foods.populate('category').execPopulate()
       response.send(category);
     } catch (error) {
@@ -28,8 +28,16 @@ app.get("/category", async (request, response) => {
 app.post("/food", async (request, response) => {
     
     try {
-      const food = new foodModel(request.body);
+      // console.log(request);
+      const food = new foodModel({...request.body, category: "627b4e00b21c257d9cded52a"});
       await food.save();
+      await Category.updateOne({
+        _id: "627b4e00b21c257d9cded52a"
+      },{
+        $push:{
+          foods: food._id
+        }
+      })
     //   await food.populate("category").exec();
       console.log(food);
       response.send(food);
