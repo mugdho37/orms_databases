@@ -1,24 +1,22 @@
 {
-    "workbench.colorTheme": "Dracula Soft",
-    "terminal.integrated.defaultProfile.windows": "Git Bash",
-    "[typescriptreact]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "files.autoSave": "afterDelay",
-    // config related to code formatting
-  
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "[javascript]": {
-      "editor.formatOnSave": false,
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true,
-      "source.organizeImports": true
-    },
-    "eslint.alwaysShowStatus": true,
-    "window.zoomLevel": -1
-  }
-  
-  
+  "workbench.colorTheme": "Dracula Soft",
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "files.autoSave": "afterDelay",
+  // config related to code formatting
+
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.organizeImports": true
+  },
+  "eslint.alwaysShowStatus": true,
+  "window.zoomLevel": -2
+}

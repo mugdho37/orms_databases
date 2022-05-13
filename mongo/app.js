@@ -7,17 +7,19 @@ const foodRouterPrisma = require("./database/orms/mongo/prisma_orm/routes/foodRo
 const app = express();
 
 app.use(express.json());
+//connection with mongoDB atlas
+mongoose.connect(
+  "mongodb+srv://test_database:12345@cluster0.hnrn4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+);
+//connection with mongoDB local
 
-// mongoose.connect(
-//   "mongodb+srv://test_database:12345@cluster0.hnrn4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-// );
-mongoose.connect('mongodb://localhost:27017/myFirstDatabase')
-    .then(() => {
-        console.log('successfully connected to database');
-    }).catch(err => console.log(err));
+// mongoose.connect('mongodb://localhost:27017/myFirstDatabase')
+//     .then(() => {
+//         console.log('successfully connected to database');
+//     }).catch(err => console.log(err));
 
-// app.use(foodRouter);
-app.use(foodRouterPrisma)
+app.use(foodRouter);
+// app.use(foodRouterPrisma)
 
 app.listen(3000, () => {
   console.log("Server is running...");

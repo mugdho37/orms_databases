@@ -8,14 +8,26 @@ const prisma = new PrismaClient()
 
 app.get("/foods", async (request, response) => {
   try {
-    const foods = await prisma.foods.findMany({});
+    const foods = await prisma.foods.findMany({ include:{category: true}});
     response.send(foods);
 
   } catch (error) {
+    console.log(error)
     response.status(500).send(error);
   }
 });
-
+app.get("/foods/:id", async (request, response) => {
+  try {
+    const foods = await prisma.foods.findUnique({
+      where: { id: request.params.id },
+      include: { category: true },
+    });
+    response.send(foods);
+  } catch (error) {
+    console.log(error);
+    response.status(500).send(error);
+  }
+});
 app.get("/category", async (request, response) => {
     try {
       const food = await prisma.categories.findMany({include:{ foods: true }})

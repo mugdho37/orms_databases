@@ -13,6 +13,10 @@ const CategorySchema = new mongoose.Schema({
   foods: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Food"
+  }],
+  users: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
   }]
 });
 
