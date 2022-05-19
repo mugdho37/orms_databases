@@ -7,22 +7,34 @@ router.post(
 	'/create',
 	mainController.create
 );
+router.post(
+	'/create-project',
+	mainController.create_project
+);
+router.post(
+	'/user-join-project',
+	mainController.userJoinProject
+);
 router.get(
 	'/get',
 	mainController.get
 );
 router.get(
-	'/getbyId',
+	'/getbyId/:id',
 	mainController.getbyId
 );
-// router.put(
-// 	'/update/:user_id',
-// 	mainController.update
-// );
-// router.delete(
-// 	'/delete/:user_id',
-// 	mainController.delete
-// );
+router.get(
+	'/get-project/:id',
+	mainController.fetchProjects
+);
+router.put(
+	'/update/:id',
+	mainController.update
+);
+router.delete(
+	'/delete/:id',
+	mainController.delete
+);
 // router.get(
 // 	'/getAll',
 // 	mainController.getAll
