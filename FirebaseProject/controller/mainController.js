@@ -27,20 +27,20 @@ class mainController {
   async create(Request, Response) {
     try {
       const data = Request.body;
-      const user = await addDoc(collection(db, "users"), {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-      });
-      // const userRef = collection(db, "users");
-      // const user = await setDoc(doc(userRef), {
-      //     firstName: data.firstName,
-      //     lastName: data.lastName,
-      //     email: data.email
+      // const user = await addDoc(collection(db, "users"), {
+      //   firstName: data.firstName,
+      //   lastName: data.lastName,
+      //   email: data.email,
       // });
+      const userRef = collection(db, "users");
+      const user = await setDoc(doc(userRef, "2"), {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email
+      });
       console.log(user);
       Response.status(200).send({
-        Details: { userId: user.id, userDetail: user },
+        // Details: { userId: user.id, userDetail: user },
         message: "User added successfully",
       });
     } catch (err) {
@@ -145,46 +145,35 @@ class mainController {
   async fetchProjects(Request, Response) {
     try {
       let userinfo = [];
-      const querySnapshot = await getDocs(
+      const junctions = await getDocs(
         collection(db, "junction_user_project"),
         where("projectId", "==", Request.params.id)
       );
-      // console.log(querySnapshot.docs);
-      const test =  querySnapshot.forEach((doc) => {
-        console.log(doc.data().userId)
-      });
-      
-      // getDocs(
-      //   collection(db, "users"),
-      //   where("id", "==", doc.data().userId)
+      console.log(junctions.docs[0].data())
       const users = await Promise.all(
-        querySnapshot.docs
-          .filter((doc) => doc.exists)
-          .map((doc) =>
-            getDocs(
-              collection(db, "users"),
-              where("id", "==", doc.data().userId)
-            )
-          )
-      );
-      console.log(users[0]);
+        junctions.docs
+          .filter(doc => doc.exists)
+          // .map(doc => db.doc(`users/${doc.data().userId}`).get()
+          .map((docu)=>{
+            console.log(docu.data())
+            const docRef = doc(db, "users", docu.data().userId);
+            const users2 = getDoc(doc(db, "users", docRef.id)).then(docSnap => {
+              if (docSnap.exists()) {
+                 userinfo.push(docSnap.data())
+                //  return docSnap.data();
+                // console.log("Document data:", docSnap.data());
+              } else {
+                console.log("No such document!");
+              }
+            })
+            // console.log(users2)
 
-      // userinfo = users
-      //   .filter((doc) => doc.exists)
-      //   .map((doc) => ({ id: doc.id, ...doc.data() }));
-        users.forEach((doc) => {
-            console.log(doc.id)
-            // userinfo.push({ id: doc.id, details: doc.data() });
-          });
-        // return Response.send(userinfo);
-        console.log(userinfo);
-      // db.doc (`courses/${doc.data().courseId}`).get()
-      // querySnapshot.forEach((doc) => {
-      //   console.log(doc.id)
-      //   userinfo.push({ id: doc.id, details: doc.data() });
-      // });
-      // console.log(userinfo);
-      // return Response.status(200).send(userinfo);
+          })
+      );
+      console.log(users)
+
+          return Response.status(200).send({Details:userinfo});
+     
     } catch (err) {
       console.log(err);
       return Response.status(500).send({
